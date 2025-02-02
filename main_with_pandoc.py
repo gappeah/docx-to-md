@@ -1,6 +1,7 @@
 import os
 import pypandoc
 from docx import Document
+from tkinter import Tk, filedialog
 
 def convert_docx_to_md(docx_path, md_path):
     """
@@ -35,10 +36,27 @@ def process_folder(input_folder, output_folder):
                 # Convert .docx to .md
                 convert_docx_to_md(docx_path, md_path)
 
+def select_folder(title):
+    """
+    Open a dialog to select a folder.
+    """
+    root = Tk()
+    root.withdraw()  # Hide the root window
+    folder = filedialog.askdirectory(title=title)
+    return folder
+
 if __name__ == "__main__":
-    # Define input and output folders
-    input_folder = "path/to/input/folder"  # Replace with your input folder path
-    output_folder = "path/to/output/folder"  # Replace with your output folder path
+    # Prompt the user to select the input folder
+    input_folder = select_folder("Select Input Folder")
+    if not input_folder:
+        print("No input folder selected. Exiting.")
+        exit()
+
+    # Prompt the user to select the output folder
+    output_folder = select_folder("Select Output Folder")
+    if not output_folder:
+        print("No output folder selected. Exiting.")
+        exit()
 
     # Ensure the output folder exists
     os.makedirs(output_folder, exist_ok=True)
